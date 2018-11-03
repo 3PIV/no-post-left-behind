@@ -86,8 +86,6 @@ if (cluster.isMaster) {
     );
   });
 
-  app.use("/api", router);
-
   router.get("/api/posts", (req, res) => {
     Post.find({}, { "history.subject": 1, t: 1, id: 1 }, (err, posts) => {
       console.log(posts);
@@ -127,4 +125,6 @@ if (cluster.isMaster) {
       return res.json({ success: true, folderdata: folders });
     });
   });
+  
+  app.use("/api", router);
 }

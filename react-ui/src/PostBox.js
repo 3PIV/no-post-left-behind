@@ -63,7 +63,7 @@ class PostBox extends Component {
   loadPostsFromServer = () => {
     // fetch returns a promise. If you are not familiar with promises, see
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-    fetch("/api/posts")
+    fetch("/api/api/posts")
       .then(data => data.json())
       .then(res => {
         if (!res.success) this.setState({ error: res.error });
@@ -76,7 +76,7 @@ class PostBox extends Component {
   loadFoldersFromServer = () => {
     // fetch returns a promise. If you are not familiar with promises, see
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-    fetch("/api/folders")
+    fetch("/api/api/folders")
       .then(folderdata => folderdata.json())
       .then(res => {
         if (!res.success) this.setState({ error: res.error });

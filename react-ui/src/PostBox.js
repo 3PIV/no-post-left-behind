@@ -162,7 +162,8 @@ class PostBox extends Component {
         </Row>
         <Row className="footer" fluid="true">
           <Col className="footerContent" xs={{ size: 10, offset: 1 }}>
-            This is the footer.
+            Please, use common sense when reading these posts.<br></br>
+            If you see information conflicting what your TA has told you, consult them.
           </Col>
         </Row>
       </Container>

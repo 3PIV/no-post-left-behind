@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import './index.css';
+import PostBox from './PostBox'
+import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
-  <App />,
+  <PostBox />,
   document.getElementById('root')
 );

@@ -73,20 +73,13 @@ if (cluster.isMaster) {
     res.send('{"message":"Hello from the custom server!"}');
   });
 
-  // All remaining requests return the React app, so it can handle routing.
-  app.get("*", function(request, response) {
-    response.sendFile(
-      path.resolve(__dirname, "../react-ui/build", "index.html")
-    );
-  });
-
   app.listen(PORT, function() {
     console.error(
       `Node cluster worker ${process.pid}: listening on port ${PORT}`
     );
   });
 
-  router.get("/api/posts", (req, res) => {
+  router.get("/posts", (req, res) => {
     Post.find({}, { "history.subject": 1, t: 1, id: 1 }, (err, posts) => {
       console.log(posts);
       if (err) return res.json({ success: false, error: err });
@@ -94,7 +87,7 @@ if (cluster.isMaster) {
     });
   });
 
-  router.post("/api/posts", (req, res) => {
+  router.post("/posts", (req, res) => {
     Post.find({}, { "history.subject": 1, t: 1, id: 1 }, (err, posts) => {
       if (err) return res.json({ success: false, error: err });
       console.log(posts);
@@ -102,7 +95,7 @@ if (cluster.isMaster) {
     });
   });
 
-  router.get("/api/posts/:postId", (req, res) => {
+  router.get("/posts/:postId", (req, res) => {
     const { postId } = req.params;
     if (!postId)
       return res.json({ success: false, error: "No post Id Provided" });
@@ -112,19 +105,26 @@ if (cluster.isMaster) {
     });
   });
 
-  router.get("/api/folders", (req, res) => {
+  router.get("/folders", (req, res) => {
     Post.find().distinct("folders", (err, folders) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, folderdata: folders });
     });
   });
 
-  router.post("/api/folders", (req, res) => {
+  router.post("/folders", (req, res) => {
     Post.find().distinct("folders", (err, folders) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, folderdata: folders });
     });
   });
-  
+
   app.use("/api", router);
+
+  // All remaining requests return the React app, so it can handle routing.
+  app.get("*", function(request, response) {
+    response.sendFile(
+      path.resolve(__dirname, "../react-ui/build", "index.html")
+    );
+  });
 }

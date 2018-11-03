@@ -81,7 +81,6 @@ if (cluster.isMaster) {
 
   router.get("/posts", (req, res) => {
     Post.find({}, { "history.subject": 1, t: 1, id: 1 }, (err, posts) => {
-      console.log(posts);
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: posts });
     });
@@ -90,7 +89,6 @@ if (cluster.isMaster) {
   router.post("/posts", (req, res) => {
     Post.find({}, { "history.subject": 1, t: 1, id: 1 }, (err, posts) => {
       if (err) return res.json({ success: false, error: err });
-      console.log(posts);
       return res.json({ success: true, data: posts });
     });
   });
@@ -102,6 +100,28 @@ if (cluster.isMaster) {
     Post.find({ id: postId }, {}, (err, post) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: post });
+    });
+  });
+
+  router.get("/folder/:folderName", (req, res) => {
+    const { folderName } = req.params;
+    console.log('Getting..')
+    if (!folderName)
+      return res.json({ success: false, error: "No folderName Provided" });
+    Post.find({ folders: folderName }, {"history.subject": 1, t: 1, id: 1 }, (err, posts) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: posts });
+    });
+  });
+
+  router.post("/folder/:folderName", (req, res) => {
+    const { folderName } = req.params;
+    console.log('Getting..');
+    if (!folderName)
+      return res.json({ success: false, error: "No folderName Provided" });
+    Post.find({ folders: folderName }, {"history.subject": 1, t: 1, id: 1 }, (err, posts) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: posts });
     });
   });
 

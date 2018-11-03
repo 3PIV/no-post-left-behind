@@ -4,20 +4,18 @@ import { Button, Input, Form } from 'reactstrap'
 import FolderList from './FolderList'
 import PropTypes from 'prop-types'
 
-
-
 const PropForm = props => (
-    <Form onSubmit={props.setFilters}>
-        <FolderList data={props.folderData} className="folderSelector" />
+    <Form >
+        <FolderList data={props.folderData} func={props.setFilters} className="folderSelector" />
         <Input
             type="text"
             name="filter"
             id="filterFolder"
-            placeholder="malloc"
+            placeholder="*this currently doesn't work, the option select does though*"
             value={props.text}
             onChange={props.handleTextChange}
         />
-        <Button type="submit" color="primary" id="submitButton">Submit</Button>
+        <Button onClick={() => props.setFilters("hw7")} type="button" color="primary" id="submitButton" >Submit</Button>
     </Form>
 );
 

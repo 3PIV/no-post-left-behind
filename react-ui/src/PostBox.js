@@ -24,7 +24,7 @@ class PostBox extends Component {
   }
 
   setActivePost(newPostId) {
-    this.setState({ postId: newPostId }, console.log(this.state.postId));
+    this.setState({ postId: newPostId });
     this.loadPostContentById(newPostId);
   }
 
@@ -85,10 +85,10 @@ class PostBox extends Component {
       .catch(e => console.error(e));
   };
 
-  loadFilteredPosts = () => {
+  loadFilteredPosts = folderName => {
     // fetch returns a promise. If you are not familiar with promises, see
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-    fetch("/api/posts/?:folder&:filter")
+    fetch(`/api/folder/${folderName}`)
       .then(data => data.json())
       .then(res => {
         if (!res.success) this.setState({ error: res.error });
@@ -103,7 +103,6 @@ class PostBox extends Component {
     fetch(`/api/posts/${postId}`)
       .then(contentdata => contentdata.json())
       .then(res => {
-        console.log(res);
         if (!res.success) this.setState({ error: res.error });
         else this.setState({ contentdata: res.data[0] });
       })
@@ -128,7 +127,7 @@ class PostBox extends Component {
           >
             <PostForm
               folderData={this.state.folderdata}
-              setFilters={this.loadFilteredPosts}
+              setFilters={this.loadFilteredPosts.bind(this)}
             />
           </Col>
         </Row>
@@ -162,8 +161,9 @@ class PostBox extends Component {
         </Row>
         <Row className="footer" fluid="true">
           <Col className="footerContent" xs={{ size: 10, offset: 1 }}>
-            Please, use common sense when reading these posts.<br></br>
-            If you see information conflicting what your TA has told you, consult them.
+            Please, use common sense when reading these posts:<br></br>
+            If you see information conflicting what your TA has told you, consult them.<br></br>
+            If you see posts saying "X" has changed dates, this doesn't refer to your class.
           </Col>
         </Row>
       </Container>
